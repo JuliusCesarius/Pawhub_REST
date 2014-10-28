@@ -19,7 +19,14 @@ module.exports.findById = function(req,res){
 	var _id = req.params.id;
 
 	User.findOne({'_id':_id}, function(err, users){
-		res.send(users);
+
+		if(err)
+			res.status(500).send({ error: 'something blew up' });
+
+		if(!users)
+			res.status(404).send('Sorry, we cannot find that!');
+		else
+			res.send(users);
 	});
 };
 
